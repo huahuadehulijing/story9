@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<meta name="keywords" content="" />
+
+    <script>
+        addEventListener("load", function () {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
+
+<style type="text/css">      
+body, html{width: 100%;height: 100%; margin:0;font-family:"微软雅黑";}
+           #allmap {width: 100%;height: 80%;overflow: hidden;margin:0;margin-top: 6px;}
+           #r-result,#r-result table{width:100%;}
+           #r-result1,#r-result1 table{width:100%;}
+           #driving_way {width:100%;height: 200px;padding-right: 15px;padding-left: 15px;margin-bottom: 10px;}
+</style>
+
+
+
+
+<!-- site metas -->
+      <title>地图服务</title>
+      <meta name="keywords" content="">
+      <meta name="description" content="">
+      <meta name="author" content="">
+      <!-- bootstrap css -->
+      <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+      <!-- style css -->
+      <link rel="stylesheet" type="text/css" href="css/style.css">
+      <!-- Responsive-->
+      <link rel="stylesheet" href="css/responsive.css">
+      <!-- fevicon -->
+      <link rel="icon" href="images/fevicon.png" type="image/gif" />
+      <!-- Scrollbar Custom CSS -->
+      <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css">
+      <!-- Tweaks for older IEs-->
+      <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/4.0.3/css/font-awesome.css">
+    <link href="css/bootstrap.css" rel='stylesheet' type='text/css' /><!-- bootstrap css -->
+      <link href="css/style2.css" rel='stylesheet' type='text/css' /><!-- custom css -->
+      <link href="css/font-awesome.min.css" rel="stylesheet"><!-- fontawesome css -->
+
+
+
+
+
+
+
+	<!-- css files -->
+    <link href="css/bootstrap.css" rel='stylesheet' type='text/css' /><!-- bootstrap css -->
+    <link href="css/style2.css" rel='stylesheet' type='text/css' /><!-- custom css -->
+    <link href="css/font-awesome.min.css" rel="stylesheet"><!-- fontawesome css -->
+	<!-- //css files -->
+	
+	<!-- google fonts -->
+	<link href="http://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
+	<link href="http://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+	<!-- //google fonts -->
+	
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=f64jwHIfgyfi2fZy7TSd8kYQqDMS8vLI"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.js"></script>
+<link rel="stylesheet" href="http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.css" />
+<script type="text/javascript" src="http://api.map.baidu.com/library/SearchInfoWindow/1.4/src/SearchInfoWindow_min.js"></script>
+<link rel="stylesheet" href="http://api.map.baidu.com/library/SearchInfoWindow/1.4/src/SearchInfoWindow_min.css" /> 
+<link href="http://api.map.baidu.com/library/TrafficControl/1.4/src/TrafficControl_min.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="http://api.map.baidu.com/library/TrafficControl/1.4/src/TrafficControl_min.js"></script> 
+<script type="text/javascript" src="http://api.map.baidu.com/library/Heatmap/2.0/src/Heatmap_min.js"></script>
+<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>   
+<title>地图服务</title>
+</head>
+    
+<body>
+
+<!-- header -->
+
+
+
+
+<header>
+	<div class="container">
+		<!-- nav -->
+		<nav class="py-md-4 py-3 d-lg-flex">
+			<div id="logo">
+			<a class="navbar-brand"href="index.html"><img src="images/logo.png" width=50></a>
+
+				</div>
+			<label for="drop" class="toggle"><span class="fa fa-bars"></span></label>
+			<input type="checkbox" id="drop" />
+			<ul class="menu ml-auto mt-1">
+				<li class=""><a href="#">周边检索</a>
+				<ul>                 
+          <li><a class="waves-effect waves-dark" onclick="ditiezhan()" href="#">地铁站</a></li>
+          <li><a class="waves-effect waves-dark" onclick="jiudian()" href="#">酒店</a></li>
+          <li><a class="waves-effect waves-dark" onclick="canyin()" href="#">餐饮</a></li>
+                </ul>
+                </li>
+			
+				<li class=""><a href="#">添加标注</a>
+				<ul>                 
+                            <li><a class="waves-effect waves-dark" onclick="alert(overlays.length)" href="#">获取绘制的标记个数</a></li>
+                            <li><a class="waves-effect waves-dark" onclick="clearAll()" href="#">清除所有标记</a></li>
+                </ul>
+                </li>
+				<li class=""><a href="#">获取经纬度</a>
+				<ul>
+                            <li><a class="waves-effect waves-dark" onclick="add2()" href="#">开启</a></li>
+                            <li><a class="waves-effect waves-dark" onclick="remove2()" href="#">关闭</a></li>
+                </ul>
+                </li>
+                <li class=""><a href="#">全景图层</a>
+				<ul>
+                            <li><a id="open2" class="waves-effect waves-dark" onclick="add1()" href="#">开启</a></li>
+                            <li><a id="close2" class="waves-effect waves-dark" onclick="remove1()" href="#">关闭</a></li>
+                </ul>
+                
+                </li>
+                <li class=""><a href="#">个性地图</a>
+				<ul>
+                            <li><a class="waves-effect waves-dark" onclick="change1()" href="#">星夜黑</a></li>
+                            <li><a class="waves-effect waves-dark" onclick="change2()" href="#">清新绿</a></li>
+                            <li><a class="waves-effect waves-dark" onclick="change3()" href="#">午夜蓝</a></li>
+                            <li><a class="waves-effect waves-dark" onclick="change4()" href="#">高端灰</a></li>
+                </ul>
+                </li>
+			</ul>
+		</nav>
+		<!-- //nav -->
+	</div>
+</header>
+
+	
+
+
+<!-- banner -->
+<section class="banner_inner2" id="home">
+	<div class="banner_inner_overlay2">
+	</div>
+</section>
+<!-- //banner -->
+
+<!-- important -->
+<div id="allmap"></div>
+
+<div id="driving_way">
+        <div class="form-group2">
+		   <input type="text" id="start" class="form-control2" placeholder="起点" required="">
+		   <input type="text" id="end" class="form-control2" placeholder="终点" required="">
+		   <select class="form-control2">
+				<option value="1">最短距离</option>
+				<option value="0">最少时间</option>
+				<option value="2">避开高速</option>
+		   </select>
+		   <input type="button" id="result" class="btn sent-butnn3" value="查询"/>
+		   <input type="button" id="reverse" class="btn sent-butnn3" value="换向"/>
+		   
+		   <input type="button" class="btn sent-butnn5" value="搜索"/>
+		   <input type="text" id="suggestId" class="form-control2" placeholder="请输入地名" required="">
+		   <div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
+		</div>
+		   
+		<div class="form-group2">
+		   <input type="text" id="startCoordinate" class="form-control2" placeholder="坐标" required="">
+		   <input type="text" id="endCoordinate" class="form-control2" placeholder="坐标" required="">
+		</div>
+		   
+		<div class="form-group2">
+		   <textarea id="text" class="form-control3" placeholder="距离及耗时" rows="3" required=""></textarea>
+		</div>		   
+</div>
+
+<div id="r-result"></div>
+<div id="r-result1"></div>
+<!-- important -->
+
+       <!-- footer section start -->
+      <div class="footer_section layout_padding">
+         <div class="container">
+            <div class="row">
+               <div class="col-lg-3 col-sm-6">
+                  <h3 class="useful_text">About</h3>
+                  <p class="footer_text">武汉大学资源与环境科学学院由原武汉测绘科技大学土地科学学院、原武汉大学环境科学与工程系、原武汉水利电力大学环境工程专业组建成立，是一个集理、工、管理于一体多学科交叉的综合性学院。</p>
+               </div>
+               <div class="col-lg-3 col-sm-6">
+                  <h3 class="useful_text">Menu</h3>
+                  <div class="footer_menu">
+                     <ul>
+                        <li><a href="地图.html">地图服务</a></li>
+                        
+                     </ul>
+                  </div>
+               </div>
+               <div class="col-lg-3 col-sm-6">
+                  <h1 class="useful_text">Useful Link</h1>
+                  <p class="dummy_text">Adipiscing Elit, sed do Eiusmod Tempor incididunt </p>
+               </div>
+               <div class="col-lg-3 col-sm-6">
+                  <h1 class="useful_text">Contact Us</h1>
+                  <div class="location_text">
+                     <ul>
+                        <li>
+                           <a href="#">
+                           <i class="fa fa-map-marker" aria-hidden="true"></i><span class="padding_left_10">Address : 武汉大学资源与环境科学学院</span>
+                           </a>
+                        </li>
+                        <li>
+                           <a href="#">
+                           <i class="fa fa-phone" aria-hidden="true"></i><span class="padding_left_10">Call : +86 13872640152</span>
+                           </a>
+                        </li>
+                        <li>
+                           <a href="#">
+                           <i class="fa fa-envelope" aria-hidden="true"></i><span class="padding_left_10">Email :2022302051160@whu.edu.cn</span>
+                           </a>
+                        </li>
+                     </ul>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- footer section end -->
+
+<!-- move top -->
+<div class="move-top text-right">
+	<a href="#home" class="move-top"> 
+		<span class="fa fa-angle-up  mb-3" aria-hidden="true"></span>
+	</a>
+</div>
+<!-- move top -->
+
+</body>
+<script src="./jquery-3.3.1.js"></script>
+<script type="text/javascript" src="http://developer.baidu.com/map/custom/stylelist.js"></script>
+<script type="text/javascript">
+
+var map = new BMap.Map("allmap");  // 创建Map实例
+map.centerAndZoom(new BMap.Point(114.30568, 30.53697), 15); // 初始定位到武汉
+
+
+
+//十一、个性地图风格变换
+function change1(){
+	var  mapStyle ={ 
+	        features: ["road", "building","water","land"],//隐藏地图上的poi
+	        style : "dark"  //设置地图风格为星夜黑
+	    }	
+	map.setMapStyle(mapStyle);
+}
+function change2(){
+	var  mapStyle ={ 
+	        features: ["road", "building","water","land"],//隐藏地图上的poi
+	        style : "light"  //设置地图风格为清新绿
+	    }	
+	map.setMapStyle(mapStyle);
+}
+function change3(){	
+	var  mapStyle ={ 
+	        features: ["road", "building","water","land"],//隐藏地图上的poi
+	        style : "midnight"  //设置地图风格为午夜蓝
+	    }	
+	map.setMapStyle(mapStyle);
+}
+function change4(){	
+	var  mapStyle ={ 
+	        features: ["road", "building","water","land"],//隐藏地图上的poi
+	        style : "grayscale"  //设置地图风格为高端灰
+	    }	
+	map.setMapStyle(mapStyle);
+}
+
+
+// 一、控件    
+map.addControl(new BMap.NavigationControl());  //添加默认缩放平移控件   
+map.addControl(new BMap.ScaleControl());       //比例尺
+map.addControl(new BMap.OverviewMapControl()); //缩略图
+map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放  
+//地图类型控件
+var mapType1 = new BMap.MapTypeControl({
+    mapTypes: [BMAP_NORMAL_MAP,BMAP_HYBRID_MAP],});
+mapType1.setAnchor(BMAP_ANCHOR_TOP_RIGHT); 
+//mapType1.setOffset(new BMap.Size(10, 66));
+map.addControl(mapType1);   
+//城市切换控件
+map.addControl(new BMap.CityListControl({
+    anchor:BMAP_ANCHOR_BOTTOM_RIGHT
+   }));
+
+// 二、覆盖物与信息窗口
+//var point = new BMap.Point(87.61, 43.81);
+//var marker = new BMap.Marker(point);  // 创建标注
+//添加标注
+//function add_overlay(){
+//		map.addOverlay(marker);//增加点
+//		marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
+//		marker.enableDragging();
+//var opts = {
+//			  width : 10,     // 信息窗口宽度
+//			  height: 10,     // 信息窗口高度
+//			  title : "This is a tag" , // 信息窗口标题
+//			}
+//var infoWindow = new BMap.InfoWindow("", opts);  // 创建信息窗口对象 
+//marker.addEventListener("click", function(){          
+//	map.openInfoWindow(infoWindow,point); //开启信息窗口
+//});}
+//清除标注
+//function remove_overlay(){
+//		map.clearOverlays();         
+//	}
+	
+//三、右键菜单栏
+var menu = new BMap.ContextMenu();
+var txtMenuItem = [
+	{
+	  text:'放大',
+	  callback:function(){map.zoomIn()}
+	},
+	{
+	  text:'缩小',
+	  callback:function(){map.zoomOut()}
+	}];
+for(var i=0; i < txtMenuItem.length; i++){
+	menu.addItem(new BMap.MenuItem(txtMenuItem[i].text,txtMenuItem[i].callback,100));}
+map.addContextMenu(menu);
+
+//四、鼠标绘制工具
+var overlays = [];
+var overlaycomplete = function(e){
+    overlays.push(e.overlay);};
+var styleOptions = {
+    strokeColor:"green",    //边线颜色。
+    fillColor:"pink",      //填充颜色。当参数为空时，圆形将没有填充效果。
+    strokeWeight: 3,       //边线的宽度，以像素为单位。
+    strokeOpacity: 0.8,	   //边线透明度，取值范围0 - 1。
+    fillOpacity: 0.6,      //填充的透明度，取值范围0 - 1。
+    strokeStyle: 'solid' //边线的样式，solid或dashed。
+    }
+//实例化鼠标绘制工具
+var drawingManager = new BMapLib.DrawingManager(map, {
+    isOpen: false, //是否开启绘制模式
+    enableDrawingTool: true, //是否显示工具栏
+    drawingToolOptions: {
+    anchor: BMAP_ANCHOR_TOP_RIGHT, //位置
+    offset: new BMap.Size(10, 40), //偏离值
+    },
+    circleOptions: styleOptions, //圆的样式
+    polylineOptions: styleOptions, //线的样式
+    polygonOptions: styleOptions, //多边形的样式
+    rectangleOptions: styleOptions //矩形的样式
+    });  
+//添加鼠标绘制工具监听事件，用于获取绘制结果
+drawingManager.addEventListener('overlaycomplete', overlaycomplete);
+function clearAll() {
+  for(var i = 0; i < overlays.length; i++){
+      map.removeOverlay(overlays[i]);}
+      overlays.length = 0            }
+
+//五、鼠标点击获取经纬度
+function showInfo(e){
+		alert(e.point.lng + ", " + e.point.lat);	
+}
+function add2(){
+	map.addEventListener("click", showInfo);
+}
+function remove2(){
+	map.removeEventListener("click", showInfo);
+}
+
+//六、全景图显示_TEST
+//覆盖区域图层
+var qjdt = new BMap.PanoramaCoverageLayer();
+var stCtrl = new BMap.PanoramaControl(); //构造全景控件
+stCtrl.setOffset(new BMap.Size(10, 100));
+function add1(){
+	map.addTileLayer(qjdt);
+	map.addControl(stCtrl);//添加全景控件
+}
+function remove1(){
+	map.removeTileLayer(qjdt);
+	map.removeControl(stCtrl);//移除全景控件
+}
+
+//七、实时交通
+var ssjt = new BMapLib.TrafficControl({
+		showPanel: false //是否显示路况提示面板
+});      
+map.addControl(ssjt);
+ssjt.setAnchor(BMAP_ANCHOR_BOTTOM_RIGHT); 
+ssjt.setOffset(new BMap.Size(10, 50));
+
+//八、路径导航
+//http://api.map.baidu.com/geocoder/v2/?address=北京市海淀区上地十街10号&output=json&ak=您的ak&callback=showLocation //GET请求
+  var strStart="",strEnd="";
+	//三种驾车策略：最少时间，最短距离，避开高速
+	var routePolicy = [BMAP_DRIVING_POLICY_LEAST_TIME,BMAP_DRIVING_POLICY_LEAST_DISTANCE,BMAP_DRIVING_POLICY_AVOID_HIGHWAYS];
+	$("#result").click(function(){
+		map.clearOverlays();
+
+    var start = $('#start').val();
+    console.log(start);
+    var end = $('#end').val();
+    console.log(end);
+		var i=$("#driving_way select").val();
+
+		var urlStart="http://api.map.baidu.com/geocoder/v2/?address="+start+"&output=json&ak=E4GNLRc9qE377BdWmpElEpEwA4dmMtUs";
+    var urlEnd="http://api.map.baidu.com/geocoder/v2/?address="+end+"&output=json&ak=E4GNLRc9qE377BdWmpElEpEwA4dmMtUs";
+
+    console.log(strStart);
+		var data=$.ajax({url:urlStart,type:"GET",dataType:"jsonp",success:function (data) {
+				var result=JSON.stringify(data);
+				var resJSON=JSON.parse(result);
+				strStart=resJSON.result.location.lat.toFixed(2).toString()+','+resJSON.result.location.lng.toFixed(2).toString();
+				console.log(strStart);
+				$('#startCoordinate').val(strStart);
+
+				/*
+				resJSON=JSON.parse(result);
+				console.log(resJSON['location'])
+				*/
+      }});
+
+    var data=$.ajax({url:urlEnd,type:"GET",dataType:"jsonp",success:function (data) {
+        var result=JSON.stringify(data);
+        var resJSON=JSON.parse(result);
+        strEnd=resJSON.result.location.lat.toFixed(2).toString()+','+resJSON.result.location.lng.toFixed(2).toString();
+        console.log(strEnd);
+        $('#endCoordinate').val(strEnd);
+
+      }});
+
+    var urlPass="http://api.map.baidu.com/direction/v2/driving?origin="+strStart+"&destination="+strEnd+"&ak=E4GNLRc9qE377BdWmpElEpEwA4dmMtUs";
+
+    var data=$.ajax({url:urlPass,type:"GET",dataType:"jsonp",success:function (data) {
+      var result=JSON.stringify(data);
+      console.log(result);
+      var resJSON=JSON.parse(result);
+      console.log(resJSON.result.routes);
+      var distance=resJSON.result.routes[0].distance;
+      var time=resJSON.result.routes[0].duration;
+      $('#text').val("距离："+(distance/1000).toFixed(2).toString()+"km   耗时： "+(time/3600).toFixed(2).toString()+"h");
+
+    }});
+
+		search(start,end,routePolicy[i]); 
+
+	});
+  function search(start,end,route){
+    var driving = new BMap.DrivingRoute(map, {renderOptions:{map: map, panel:"r-result",autoViewport: true},policy: route});
+    driving.search(start,end);
+  }
+
+  //逆转操作
+	$('#reverse').click(function () {
+		var tmp=$('#start').val();
+		$('#start').val($('#end').val());
+    $('#end').val(tmp);
+    var start = $('#start').val();
+    var end = $('#end').val();
+    var j=$("#driving_way select").val();
+
+    var tmp=$('#startCoordinate').val();
+    $('#startCoordinate').val($('#endCoordinate').val());
+    $('#endCoordinate').val(tmp);
+    var start = $('#start').val();
+    var end = $('#end').val();
+    var j=$("#driving_way select").val();
+
+
+    search(start,end,routePolicy[j]);
+  });
+  
+//九、本地搜索
+
+function ditiezhan(){
+	var local1 = new BMap.LocalSearch(map, {
+		renderOptions: {map: map, panel: "r-result1"}
+	});
+	local1.search("地铁站");
+}
+function jiudian(){
+	var local1 = new BMap.LocalSearch(map, {
+		renderOptions: {map: map, panel: "r-result1"}
+	});
+	local1.search("酒店");
+}
+	function canyin(){
+	var local1 = new BMap.LocalSearch(map, {
+		renderOptions: {map: map, panel: "r-result1"}
+	});
+	local1.search("餐饮");
+}
+
+//十、关键字提示输入
+function G(id) {
+	return document.getElementById(id);
+}
+var ac = new BMap.Autocomplete(    //建立一个自动完成的对象
+	{"input" : "suggestId"
+		,"location" : map
+	});
+
+ac.addEventListener("onhighlight", function(e) {  //鼠标放在下拉列表上的事件
+	var str = "";
+    var _value = e.fromitem.value;
+	var value = "";
+	if (e.fromitem.index > -1) {
+			value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+		}    
+	str = "FromItem<br />index = " + e.fromitem.index + "<br />value = " + value;
+		
+	value = "";
+	if (e.toitem.index > -1) {
+			_value = e.toitem.value;
+			value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+		}    
+	str += "<br />ToItem<br />index = " + e.toitem.index + "<br />value = " + value;
+	G("searchResultPanel").innerHTML = str;
+	});
+
+var myValue;
+ac.addEventListener("onconfirm", function(e) {    //鼠标点击下拉列表后的事件
+	var _value = e.item.value;
+	myValue = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+	G("searchResultPanel").innerHTML ="onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
+		
+		setPlace();
+	});
+
+function setPlace(){
+	map.clearOverlays();    //清除地图上所有覆盖物
+	function myFun(){
+		var pp = local.getResults().getPoi(0).point;    //获取第一个智能搜索的结果
+		map.centerAndZoom(pp, 16);
+		map.addOverlay(new BMap.Marker(pp));    //添加标注
+		}
+	var local = new BMap.LocalSearch(map, { //智能搜索
+		onSearchComplete: myFun
+		});
+	local.search(myValue);
+}
+
+//十二、热力图
+
+var points =[
+	{"lng":87.618261,"lat":43.821984,"count":50},
+    {"lng":87.623332,"lat":43.816532,"count":51},
+    {"lng":87.619739,"lat":43.830658,"count":15},
+    {"lng":87.618455,"lat":43.820921,"count":40},
+    {"lng":87.6188166,"lat":43.815516,"count":100},
+    {"lng":87.62546,"lat":43.818503,"count":6},
+    {"lng":87.623289,"lat":43.819989,"count":18},
+    {"lng":87.618162,"lat":43.815051,"count":80},
+    {"lng":87.622039,"lat":43.81782,"count":11},
+    {"lng":87.61339,"lat":43.817253,"count":7},
+    {"lng":87.61773,"lat":43.819426,"count":42},
+    {"lng":87.621107,"lat":43.816445,"count":4},
+    {"lng":87.617521,"lat":43.8179166,"count":27},
+    {"lng":87.619812,"lat":43.820836,"count":23},
+    {"lng":87.620682,"lat":43.81463,"count":60},
+    {"lng":87.615424,"lat":43.824675,"count":8},
+    {"lng":87.619242,"lat":43.814509,"count":15},
+    {"lng":87.622766,"lat":43.821408,"count":25},
+    {"lng":87.621674,"lat":43.8216696,"count":21},
+    {"lng":87.627268,"lat":43.82267,"count":1},
+    {"lng":87.617721,"lat":43.820034,"count":51},
+    {"lng":87.612456,"lat":43.82667,"count":7},
+    {"lng":87.6201662,"lat":43.819114,"count":11},
+    {"lng":87.625013,"lat":43.821611,"count":35},
+    {"lng":87.613933,"lat":43.831037,"count":22},
+    {"lng":87.619336,"lat":43.831134,"count":4},
+    {"lng":87.613557,"lat":43.823254,"count":5},
+    {"lng":87.618367,"lat":43.829166,"count":3},
+    {"lng":87.6216612,"lat":43.819621,"count":100},
+    {"lng":87.623394,"lat":43.819447,"count":39},
+    {"lng":87.624225,"lat":43.823091,"count":32},
+    {"lng":87.617801,"lat":43.821854,"count":44},
+    {"lng":87.617129,"lat":43.828227,"count":21},
+    {"lng":87.626426,"lat":43.822286,"count":80},
+    {"lng":87.621597,"lat":43.81948,"count":32},
+    {"lng":87.623895,"lat":43.820739,"count":26},
+    {"lng":87.623563,"lat":43.821197,"count":17},
+    {"lng":87.617982,"lat":43.822547,"count":17},
+    {"lng":87.626126,"lat":43.821938,"count":25},
+    {"lng":87.62326,"lat":43.815782,"count":100},
+    {"lng":87.619239,"lat":43.816759,"count":39},
+    {"lng":87.617185,"lat":43.829123,"count":11},
+    {"lng":87.617237,"lat":43.827518,"count":9},
+    {"lng":87.617784,"lat":43.815754,"count":47},
+    {"lng":87.620193,"lat":43.817061,"count":52},
+    {"lng":87.622735,"lat":43.815619,"count":100},
+    {"lng":87.618495,"lat":43.815958,"count":46},
+    {"lng":87.616292,"lat":43.831166,"count":9},
+    {"lng":87.619916,"lat":43.824055,"count":8},
+    {"lng":87.62189,"lat":43.821308,"count":11},
+    {"lng":87.613765,"lat":43.829376,"count":3},
+    {"lng":87.618232,"lat":43.820348,"count":50},
+    {"lng":87.617554,"lat":43.830511,"count":15},
+    {"lng":87.618568,"lat":43.818161,"count":23},
+    {"lng":87.613461,"lat":43.826306,"count":3},
+    {"lng":87.62232,"lat":43.82161,"count":13},
+    {"lng":87.6174,"lat":43.828616,"count":6},
+    {"lng":87.624679,"lat":43.815499,"count":21},
+    {"lng":87.62171,"lat":43.815738,"count":29},
+    {"lng":87.617836,"lat":43.816998,"count":99},
+    {"lng":87.620755,"lat":43.828001,"count":10},
+    {"lng":87.614077,"lat":43.830655,"count":14},
+    {"lng":87.626092,"lat":43.822995,"count":16},
+    {"lng":87.61535,"lat":43.831054,"count":15},
+    {"lng":87.613022,"lat":43.821895,"count":13},
+    {"lng":87.615551,"lat":43.813373,"count":17},
+    {"lng":87.621191,"lat":43.826572,"count":1},
+    {"lng":87.619612,"lat":43.817119,"count":9},
+    {"lng":87.618237,"lat":43.821337,"count":54},
+    {"lng":87.623776,"lat":43.821919,"count":26},
+    {"lng":87.617694,"lat":43.82536,"count":17},
+    {"lng":87.615377,"lat":43.814137,"count":19},
+    {"lng":87.6171664,"lat":43.8116694,"count":166},
+    {"lng":87.62588,"lat":43.822622,"count":27},
+    {"lng":87.618345,"lat":43.819467,"count":8},
+    {"lng":87.626883,"lat":43.817171,"count":3},
+    {"lng":87.623397,"lat":43.816659,"count":34},
+    {"lng":87.615712,"lat":43.815613,"count":14},
+    {"lng":87.619869,"lat":43.831416,"count":12},
+    {"lng":87.616956,"lat":43.825377,"count":11},
+    {"lng":87.62066,"lat":43.825017,"count":38},
+    {"lng":87.616244,"lat":43.820215,"count":91},
+    {"lng":87.61929,"lat":43.815908,"count":54},
+    {"lng":87.622116,"lat":43.819658,"count":21},
+    {"lng":87.6183,"lat":43.825015,"count":15},
+    {"lng":87.621969,"lat":43.813527,"count":3},
+    {"lng":87.622936,"lat":43.821854,"count":24},
+    {"lng":87.61905,"lat":43.829217,"count":12},
+    {"lng":87.624579,"lat":43.814939,"count":57},
+    {"lng":87.62076,"lat":43.815251,"count":70},
+    {"lng":87.625867,"lat":43.818989,"count":8}];
+   
+    if(!isSupportCanvas()){
+    	alert('热力图目前只支持有canvas支持的浏览器,您所使用的浏览器不能使用热力图功能~')
+    }
+    heatmapOverlay = new BMapLib.HeatmapOverlay({"radius":20});
+	map.addOverlay(heatmapOverlay);
+	heatmapOverlay.setDataSet({data:points,max:100});
+	//是否显示热力图
+    function openHeatmap(){
+        heatmapOverlay.show();
+    }
+	function closeHeatmap(){
+        heatmapOverlay.hide();
+    }
+	closeHeatmap();
+    function setGradient(){
+     	/*格式如下所示:
+		{
+	  		0:'rgb(102, 255, 0)',
+	 	 	.5:'rgb(255, 170, 0)',
+		  	1:'rgb(255, 0, 0)'
+		}*/
+     	var gradient = {};
+     	var colors = document.querySelectorAll("input[type='color']");
+     	colors = [].slice.call(colors,0);
+     	colors.forEach(function(ele){
+			gradient[ele.getAttribute("data-key")] = ele.value; 
+     	});
+        heatmapOverlay.setOptions({"gradient":gradient});
+    }
+	//判断浏览区是否支持canvas
+    function isSupportCanvas(){
+        var elem = document.createElement('canvas');
+        return !!(elem.getContext && elem.getContext('2d'));
+    }
+
+</script>
+</html>
